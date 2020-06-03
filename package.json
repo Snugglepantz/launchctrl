@@ -1,0 +1,13 @@
+{
+  "name": "launchctrl",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "firmata": "^2.0.0",
+    "jzz": "^0.8.4",
+    "jzz-midi-gear": "^1.0.7",
+    "launch-control-xl": "^1.1.0"
+  }
+}

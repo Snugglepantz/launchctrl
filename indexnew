@@ -1,0 +1,81 @@
+var JZZ = require('jzz');
+require('jzz-midi-gear')(JZZ);
+// // start the MIDI engine:
+// JZZ({sysex:true}).or('Cannot start MIDI engine!')
+//     .and(function(){ console.log(this.info()); })
+//     .wait(10000).refresh()
+//     .and(function(){ console.log(this.info()); })
+//     .and('Thank you!');
+
+function lightUp() {
+
+}
+
+var modes = [105,106,107,108];
+var output = JZZ().openMidiOut("Launch Control XL");
+var delay = JZZ.Widget();
+delay._receive = function(msg) { this.wait(500).emit(msg); };
+delay.connect(output);
+var logger = JZZ.Widget({ _receive: function(msg) {
+        var note = msg.getNote();
+        if(note === 105) {
+            // var ms2 = JZZ.MIDI.sxIdRequest();
+            // ms2.setText();
+            // console.log(ms2.getText());
+            // console.log(output.info())
+            for(var i = 0; i <=15; i++) {
+                for(var j = 0; j <=15; j++) {
+                    let arr = [240, 0, 32, 41, 2, 17, 120, i, 32+j, 12, 247]
+                    // var ms2 = JZZ.MIDI.sxIdRequest();
+                    // ms2.setData(arr);
+
+                    // let arr = [0xF0, 0x00, 0x20, 0x29, 0x02, 0x11, 0x78,0x00, 0x20, 0xff, 0xF7]
+                    console.log(arr)
+                    delay._receive(arr);
+                }
+            }
+
+            // output.send([0xF0, 0x00, 0x20, 0x29, 0x02, 0x11, 0x78]);
+            console.log("YOUMOM")
+        }
+        console.log(note);
+    }});
+
+
+
+// ...
+
+JZZ().openMidiIn("Launch Control XL").connect(logger);
+// var input = JZZ().openMidiIn("Launch Control XL");
+// input.connect((midi) =>{
+//     console.log(JSON.stringify(midi, null, 2))
+// });
+//
+// output.connect((midi) =>{
+//     console.log(JSON.stringify(midi, null, 2))
+// });
+
+// input.connect((midi) => {
+//     console.log(JSON.stringify(midi, null, 2))
+// })
+// JZZ({sysex:true}).and(function() {
+//     var inputs = this.info().inputs;
+//     var outputs = this.info().outputs;
+//     // enable message handlers on all MIDI-In ports:
+//     for (var i in inputs) this.openMidiIn(i).connect(function(msg) {
+//       if (msg.isIdResponse()) {
+//         var gear = msg.gearInfo();
+//         console.log('ID Response SysEx received:');
+//         console.log('   port:    ' + this.name());
+//         console.log('   message: ' + msg);
+//         console.log('   brand:   ' + gear.brand);
+//         console.log('   model:   ' + gear.model);
+//         console.log('   device:  ' + gear.descr);
+//       }
+//     });
+//     // send the ID Request SysEx to all MIDI-Out ports:
+//     for (var i in outputs) this.openMidiOut(i).sxIdRequest();
+//   });
+//   // ...
+//   // in Node.js - don't forget to stop the engine when done:
+//   JZZ().wait(500).close();
